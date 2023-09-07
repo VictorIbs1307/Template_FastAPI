@@ -21,5 +21,5 @@ class UserResponse(BaseModel):
     last_name: str
     age: int
     
-class  UserListResponse():
-    user_list: list[User]
+class  UserListResponse(BaseModel):
+    user_list: list[UserResponse]
