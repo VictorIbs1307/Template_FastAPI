@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./sql_app.db"
+SQLALCHEMY_DATABASE_URL = "sqlite:///./my_app.db"
 # SQLALCHEMY_DATABASE_URL = "postgresql://user:password@postgresserver/db"
 
 engine = create_engine(

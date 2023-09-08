@@ -1,5 +1,5 @@
-from src.app.queries.users.user_queries import UserQueries
-from src.app.services.users.user_service import UserService
+from src.app.queries.user_queries import UserQueries
+from src.app.services.user import UserService
 
 def user_service() -> UserService:
     queries = UserQueries()

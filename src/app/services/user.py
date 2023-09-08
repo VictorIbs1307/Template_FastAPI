@@ -1,7 +1,7 @@
 
 from sqlalchemy.orm import Session
-from src.app.schemas.users.responses import UserResponse, UserListResponse
-from src.app.queries.users.user_queries import UserQueries
+from src.app.schemas.user import UserResponse, UserListResponse
+from src.app.queries.user_queries import UserQueries
 
 
 class UserService:

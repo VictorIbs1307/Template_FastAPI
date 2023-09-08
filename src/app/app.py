@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from src.app.core.base import Base
-from src.app.routes.users import users_router
+from src.app.routes import users_router
 from src.app.core.db import engine
 
 
