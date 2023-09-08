@@ -1,28 +1,18 @@
-
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
+SQLALCHEMY_DATABASE_URL = "sqlite:///./sql_app.db"
+# SQLALCHEMY_DATABASE_URL = "postgresql://user:password@postgresserver/db"
 
-
-#define sqlite connection url
-SQLALCHEMY_DATABASE_URL = "sqlite:///./my_database.db"
-
-# create new engine instance 
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
-
-# create sessionmaker 
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-Base = declarative_base()
-#create the database tables on app startup or reload
-Base.metadata.create_all(bind=engine)
-
-
-def get_db(self):
-    self.db = self.SessionLocal()
+# Dependency
+def get_db():
+    db = SessionLocal()
     try:
-        yield self.db
+        yield db
     finally:
-        self.db.close()
-            
+        db.close()
