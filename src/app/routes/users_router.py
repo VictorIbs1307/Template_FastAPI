@@ -1,14 +1,22 @@
-import fastapi
-from src.app.schemas.user import UserListResponse
-from src.app.services.user import UserService
-from src.app.core import service_container
-from fastapi import Depends
+
+from src.app.schemas.user import UserListResponse, UserBase
+from src.app.queries.user_queries import UserQueries
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from src.app.core.db import get_db
 
-router = fastapi.APIRouter()
-USER_SERVICE = fastapi.Depends(service_container.user_service)
 
-@router.get(path="/", response_model=UserListResponse)
-async def get_user(service: UserService = USER_SERVICE, db:Session = Depends(get_db)) -> UserListResponse:
-    return await service.get_users(db=db)
+
+class UserRouter(APIRouter):
+    def __init__(self, queries: UserQueries):
+        super().__init__()
+        
+        self._queries = queries
+        self.get("", response_model=UserListResponse)(self.get_all_users)
+        
+    async def get_all_users(self, db:Session = Depends(get_db)) -> UserListResponse:
+        db_users = await self._queries.get_all_users(db=db)
+        fetched_users = []
+        for user in db_users:
+            fetched_users.append(UserBase.validate_model(user))
+        return UserListResponse(user_list=fetched_users)
